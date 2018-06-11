@@ -27,6 +27,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- freemarker 依赖 -->
+		<dependency>
+		  <groupId>org.springframework.boot</groupId>
+		  <artifactId>spring-boot-starter-freemarker</artifactId>
+		</dependency>
         <!-- 定时任务 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,6 +67,18 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+        
+        <!-- lisence -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpg-jdk15</artifactId>
+            <version>143</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15</artifactId>
+            <version>143</version>
         </dependency>
         
         <!-- 工具类库 -->
