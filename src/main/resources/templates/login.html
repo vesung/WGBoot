@@ -1,0 +1,181 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="@ebring" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<script type="text/javascript" src="platform/lib/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+	(function() {
+		$.ajax({
+			"type" : "GET",
+			"contentType" : "application/json; charset=utf-8",
+			"url" : "./userinfo.do",
+			"dataType" : "json",
+			async : false,
+			"success" : function(resp) {
+				window.Config = {};
+				Config.basePath = resp.basePath;
+			},
+			"error" : function(msg) {
+				console.error(msg);
+				alert(msg);
+			}
+		});
+	})();
+	function isUpperCase(ch) {
+		return ch >= 'A' && ch <= 'Z'
+	}
+
+	
+	
+	$(function(){  
+		$('#password').bind('input propertychange', function() {  
+			var cont = $("#password").val();
+			var flag = isUpperCase(cont.substring(cont.lenthg - 2,
+					cont.length - 1));
+			if (flag) {
+				if ($(".tips").text() != "大写已开启") {
+					$(".tips").text("大写已开启!")
+				}
+			} else {
+				if ($(".tips").text() == "大写已开启") {
+					$(".tips").text(" ");
+				}
+			}
+		});  
+		  
+		})  
+</script>
+<script type="text/javascript" src="platform/common/config.js"></script>
+<script type="text/javascript" src="platform/common/loadLogincss.js"></script>
+
+</head>
+
+<body>
+	<div class="backgs">
+
+		<div class="loginClasss">
+			<div class="logos"></div>
+			<div class="formClasss">
+				<p class="tips">&nbsp;</p>
+				<input id="username" style="margin-top: 2px;" name="username"
+					type="text" class="loginField" placeholder="&nbsp;&nbsp;用户名">
+				<div class="psw">
+					<input id="password" style="margin-top: 15px;" name="password"
+						type="password" class="loginField" placeholder="&nbsp;&nbsp;密码">
+				</div>
+				<button id="login" class="btns"></button>
+
+
+
+			</div>
+
+		</div>
+		<div class="foot">
+			<div class="ssd"></div>
+			浙江银信博荣电子科技股份有限公司
+		</div>
+	</div>
+	<!-- 不要修改下面代码。 此代码放到文件底部，引入公共js文件，及初始化方法。 -->
+	<script type="text/javascript" src="platform/lib/jquery.md5.js"></script>
+	<script type="text/javascript" src="platform/common/util.js"></script>
+
+
+	<script type="text/javascript">
+		(function() {
+
+			var loginLocked = false;
+			function login() {
+				if (loginLocked) {
+					return;
+				} else {
+					loginLocked = true;
+					window.setTimeout(function() {
+						loginLocked = false;
+					}, 50);
+				}
+
+				if ($("#username").val() === '') {
+					$(".tips").text("请录入用户名！");
+
+					return;
+				} else if ($("#password").val() === '') {
+					$(".tips").text("请录入密码！");
+					return;
+				}
+
+				var jsonData = {};
+				Util.addParameter(jsonData, "username", $("#username").val());
+				Util.addParameter(jsonData, "password", $("#password").val());
+				Util.encryptParameters(jsonData);
+				$
+						.ajax({
+							"type" : "POST",
+							"contentType" : "application/json; charset=utf-8",
+							"url" : Config.basePath + "/login.do",
+							"dataType" : "json",
+							"data" : JSON.stringify(jsonData), //以json格式传递
+							"cache" : false,
+							"success" : function(result) {
+								console.debug('login.submit  result=' + result);
+								if (result.SUCCESS) {
+									if ($.browser.msie)
+										window.location.href = 'platform/adminFrame.html';
+									else
+										window.location.href = './platform/adminFrame.html';
+
+									return;
+									// popWindow();
+
+								} else {
+									$(".tips").text(result.MESSAGE);
+
+								}
+							},
+							"error" : function(errinfo) {
+								console.info('submit.error:'
+										+ jsonUtil.toString(errinfo));
+								console.elog('submit.error:'
+										+ jsonUtil.toString(errinfo));
+							}
+						});
+
+			}
+			;
+
+			function popWindow() {
+				var new_window = window
+						.open(
+								'platform/adminFrame.html',
+								'ethink',
+								'top=0, left=0, resizable=yes, toolbar=no, menubar=no, scrollbars=no, location=no, status=no, depended=no');
+				// );
+				if ($.browser.msie) {
+					if (new_window == null) {
+						alert("请允许窗口弹出");
+						return;
+					}
+					new_window.resizeTo(screen.availWidth, screen.availHeight);
+					window.setTimeout(function() {
+						window.opener = null
+						window.open("", "_self")
+						window.close();
+					}, 90);
+				}
+
+			}
+
+			$("#login").click(login);
+			$("#username,#password").keydown(function() {
+				if (event.keyCode === 13) {
+					login();
+				}
+			});
+			$("input").focus(function() {
+				$(".tips").html("&nbsp");
+			});
+		}())
+	</script>
+</body>
+</html>

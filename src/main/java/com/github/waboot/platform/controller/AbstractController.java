@@ -52,7 +52,7 @@ public abstract class AbstractController {
 			return Results.buildErrorResult("timeout", "登录超时");
 		}
 		
-		if(context.containsBean(serviceName)) {
+		if(!context.containsBean(serviceName)) {
 			return Results.buildErrorResult(String.format("[%s]服务未定义", serviceName));
 		}
 		if(!(context.getBean(serviceName) instanceof IService)) {

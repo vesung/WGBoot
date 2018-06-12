@@ -7,11 +7,8 @@ import java.util.Map;
  * @author wangjing.dc@qq.com
  *
  */
-public class PlatformDao {
+public interface PlatformDao {
 
-	public List<Map<String, Object>> queryUserById(String userid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<Map<String, Object>> queryUserById(String userid);
 
 }

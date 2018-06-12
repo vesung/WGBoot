@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <description>waboot平台platform模块服务配置</description>
+
+    <!-- 用户登录服务 -->
+    <bean id="loginService" class="com.github.waboot.platform.login.LoginService"></bean>
+    <!-- 退出登录服务 -->
+    <bean id="logoutService" class="com.github.waboot.platform.login.LogoutService"></bean>
+
+
+</beans>
