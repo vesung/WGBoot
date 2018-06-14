@@ -38,5 +38,13 @@ public class Result {
 		this.code = code;
 	}
 
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("success=").append(this.success).append(",")
+		.append("code=").append(this.code).append(",")
+		.append("data=").append(this.data);
+		
+		return sb.toString();
+	}
 
 }

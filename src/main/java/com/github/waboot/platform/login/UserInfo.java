@@ -15,6 +15,8 @@ public class UserInfo implements Serializable{
 	private String password;
 	private String orgId;
 	private String orgName;
+	private String iP;
+	private String status;
 	
 	
 	public String getUserId() {
@@ -73,6 +75,30 @@ public class UserInfo implements Serializable{
 
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
+	}
+
+
+
+	public String getIP() {
+		return iP;
+	}
+
+
+
+	public void setIP(String iP) {
+		this.iP = iP;
+	}
+
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 

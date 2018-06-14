@@ -109,7 +109,7 @@
 				}
 
 				var jsonData = {};
-				jsonData["username"] = $("#username").val();
+				jsonData["userid"] = $("#username").val();
 				jsonData["password"] = $.md5($("#password").val());
 				$.ajax({
 							"type" : "POST",
@@ -120,7 +120,7 @@
 							"cache" : false,
 							"success" : function(result) {
 								console.info(result);
-								if (result.SUCCESS) {
+								if (result.success) {
 									if ($.browser.msie)
 										window.location.href = 'platform/main.html';
 									else

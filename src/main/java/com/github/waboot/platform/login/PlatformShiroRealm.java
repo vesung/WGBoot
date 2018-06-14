@@ -9,7 +9,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.ConcurrentAccessException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -19,8 +18,9 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 
-import com.github.waboot.platform.license.LicenseEntry;
 import com.github.waboot.platform.db.PlatformDao;
+import com.github.waboot.platform.license.LicenseEntry;
+import com.github.waboot.platform.license.LisenceException;
 
 /**
  * 登录验证方法
@@ -48,40 +48,61 @@ public class PlatformShiroRealm extends AuthorizingRealm{
 	//获取认证信息
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(
-			AuthenticationToken authcToken ) throws AuthenticationException {
-		//参数authcToken中存储着输入的用户和密码
-		if(log.isDebugEnabled()){
-			log.debug("MyShiroRealm doGetAuthenticationInfo.");
+			AuthenticationToken authcToken) throws AuthenticationException {
+		
+		validateLisence();
+		
+		// 将接受的参数强转成可用的UsernamePasswordToken类型
+		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+
+		// 通过表单接收的用户名
+		String userid = token.getUsername();
+		Map<String, Object> user = findUserInfo(userid);
+		if(user == null) {
+			throw new UnknownAccountException();
 		}
 		
-		if(!LicenseEntry.validate()){
-			log.error("License valid fail!");
-			return null;
-		}
-		//将接受的参数强转成可用的UsernamePasswordToken类型
-		UsernamePasswordToken token = (UsernamePasswordToken) authcToken; 
-		System.out.println("host:"+token.getHost());
+		UserInfo userInfo = wrapUserInfo(user);
+		userInfo.setIP(token.getHost());
 		
-	      // 通过表单接收的用户名
-	      String userid = token.getUsername(); 
-	      //将token.getPassword()转换成String类型
-	      String password=String.valueOf(token.getPassword());
-	      String ip=token.getHost();
-	      
-	      UserInfo userInfo= getUserInfo(userid,password,ip);
-	      //得到当前正在执行的用户
-		  Subject currentUser = SecurityUtils.getSubject();
-		  //给当前currentUser会话中设置属性为UserInfo的表单接收对象userinfo
-		  currentUser.getSession().setAttribute("UserInfo", userInfo);
-		  log.debug("userInfo=" + userInfo);
-		  
-		  if(userInfo!=null){
-			  return new SimpleAuthenticationInfo(userInfo,  
-					  userInfo.getPassword(),userid);
-		  }
-		  
-	
-		return null;
+		if("locked".equals(userInfo.getIP())){
+			throw new LockedAccountException();
+		}
+		
+		// 得到当前正在执行的用户
+		Subject currentUser = SecurityUtils.getSubject();
+		// 给当前currentUser会话中设置属性为UserInfo的表单接收对象userinfo
+		currentUser.getSession().setAttribute("UserInfo", userInfo);
+
+		return new SimpleAuthenticationInfo(userInfo, 
+				MapUtils.getString(user, "PASSWORD", ""), userid);
+	}
+
+	/**
+	 * 验证lisence
+	 */
+	private void validateLisence() {
+		boolean validated = LicenseEntry.validate();
+		if (!validated) {
+			throw new LisenceException("License valid fail!");
+		}
+	}
+
+	/**
+	 * 封装UserInfo对象
+	 * @param user
+	 * @return
+	 */
+	private UserInfo wrapUserInfo(Map<String, Object> user) {
+		if(user == null) return null;
+		
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserId(MapUtils.getString(user, "ID"));
+		userInfo.setUserName(MapUtils.getString(user, "USER_NAME"));
+		userInfo.setOrgId(MapUtils.getString(user, "ORG_ID"));
+		userInfo.setOrgName((String)user.get("ORG_NAME"));
+		
+		return userInfo;
 	}
 
 	/**
@@ -91,39 +112,22 @@ public class PlatformShiroRealm extends AuthorizingRealm{
 	 * @param ip 终端ip
 	 * @return
 	 */
-    private UserInfo getUserInfo(String userid,String password,String ip){
-    	UserInfo userInfo=null;
-    	
+    private Map<String, Object> findUserInfo(String userid){    	
 		List<Map<String, Object>> list = platformDao.queryUserById(userid);
 		
 		// 用户不存在
 		if(list.size() <= 0){
-			throw new UnknownAccountException("用户不存在");
+			return null;
 		}else {
-			Map<String, Object> map=list.get(0);
-			
-			String pwd = MapUtils.getString(map, "PASSWORD");
-			if(!(password.equals(pwd))) {
-				throw new ConcurrentAccessException("密码错误");
-			}
-			
-			String status = MapUtils.getString(map, "STATUS");
-			if("locked".equals(status)){
-				throw new LockedAccountException("用户冻结");
-			}
-			
-			userInfo=new UserInfo();
-			userInfo.setUserId(userid);
-			userInfo.setUserName(MapUtils.getString(map, "USER_NAME"));
-			userInfo.setOrgId(MapUtils.getString(map, "ORG_ID"));
-			userInfo.setOrgName((String)map.get("ORG_NAME"));
+			return list.get(0);
 		}
-		
-    	return userInfo;
     }
 
 	public void setPlatformDao(PlatformDao platformDao) {
 		this.platformDao = platformDao;
 	}
 	
+
+
+
 }

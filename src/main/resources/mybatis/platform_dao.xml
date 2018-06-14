@@ -7,6 +7,9 @@
   <!-- 不加缓存
   <cache />
    -->
-  
+   
+    <select id="queryUserById" parameterType="string" resultType="hashmap">
+        select * from BASE_USER where ID = #{USER_ID}
+    </select>
   
 </mapper>

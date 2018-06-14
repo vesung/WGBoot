@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.waboot.platform.common.Result;
 import com.github.waboot.platform.common.Results;
 
 /**
@@ -30,7 +31,9 @@ public class LoginController extends AbstractController{
 			HttpServletRequest request) throws Exception {
 		
 		try{
-			return this.doService("loginService", param, null, request);
+			Result ret = this.doService("loginService", param, null, request);
+			log.info(ret);
+			return ret;
 		}catch(Exception e){
 			log.error("LoginController系统错误", e);
 			return Results.buildErrorResult("LoginController系统错误");

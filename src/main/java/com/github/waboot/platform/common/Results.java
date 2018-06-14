@@ -12,7 +12,7 @@ public class Results {
 	 * @return
 	 */
 	public static Result buildSuccessResult() {
-		return buildSucessResult(null);
+		return buildSuccessResult(null);
 	}
 	
 	/**
@@ -20,7 +20,7 @@ public class Results {
 	 * @param msg 成功message
 	 * @return
 	 */
-	public static Result buildSucessResult(Object msg) {
+	public static Result buildSuccessResult(Object msg) {
 		Result result = new Result();
 		result.setSuccess(true);
 		result.setCode("success");
