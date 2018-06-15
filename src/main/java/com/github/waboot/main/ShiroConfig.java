@@ -34,6 +34,7 @@ public class ShiroConfig {
 		
 		// 配置不会被拦截的链接 顺序判断
 		filterChainDefinitionMap.put("/static/**", "anon");
+		filterChainDefinitionMap.put("/images/**", "anon");
 		filterChainDefinitionMap.put("/platform/theme/**", "anon");
 		filterChainDefinitionMap.put("/platform/common/**", "anon");
 		filterChainDefinitionMap.put("/platform/lib/**", "anon");
@@ -51,7 +52,7 @@ public class ShiroConfig {
 		// 如果不设置默认会自动寻找Web工程根目录下的"/login.html"页面
 		shiroFilterFactoryBean.setLoginUrl("/login.html");
 		// 登录成功后要跳转的链接
-		shiroFilterFactoryBean.setSuccessUrl("/main.html");
+		shiroFilterFactoryBean.setSuccessUrl("/platform/main.html");
 
 		// 未授权界面;
 		shiroFilterFactoryBean.setUnauthorizedUrl("/403");

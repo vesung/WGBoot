@@ -12,6 +12,7 @@ body, button, input, select, textarea {
 ul, ol {list-style: none;}
 a { text-decoration: none;}
 
+.hide{display: none;}
 .warp {width: 380px; margin: 4% auto 0 auto;}
 .warp >a{height: 150px; display: block; text-align: center;}
 
@@ -161,16 +162,29 @@ a { text-decoration: none;}
 }
 .iPhone a, .Android a {
     font-size: 13px;
-    color: #bdbdbd;
+    color: #d0d0d0;
     font-family: Microsoft YaHei;
     text-decoration: none;
     line-height: 22px;
+    padding: 2px 9px;
+    display: inline-block;
+    text-align: center;
+    background-color: #0000004a;
 }
 .line {
     width: 1px;
     height: 22px;
     background: #bdbdbd;
     float: left;
+}
+
+.errortext {
+    border: 1px #ff6f3d solid;
+    font-size: 13px;
+    color: #ff6f3d;
+    font-family: 微软雅黑 Light;
+    height: 25px;
+    cursor: default;
 }
 
 
@@ -181,62 +195,42 @@ a { text-decoration: none;}
 <section id="h1" class="jawbone-takeover-minimulti jawbone-hero">
     <i class="jawbone-hero-image" data-hero-image-fixed="true" data-hero-image-fade="true" data-hero-min-opacity=".3" style="opacity: 1.05;"></i>
     <div class="warp">
-        <a href="#">
-            <svg height="132" width="132" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" aria-hidden="true" >
+        <a href="https://github.com/vesung/WaBoot">
+            <!-- <svg height="132" width="132" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" aria-hidden="true" >
                 <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
-            </svg>
+            </svg> -->
         </a>
         <div class="loginbox">
             <div class="cd-user-modal-container">
-                <ul class="cd-switcher">
+            <ul class="cd-switcher">
                 <li><a id="a_user" href="#" style="border-right: 1px solid #bdbdbd;color:#ffffff;">账号登录</a></li>
                 <li><a id="a_qrcode" href="#">扫码登录</a></li>
             </ul> 
          <!-- 账户登录页 -->
-            <div id="cd-login">
-            <form class="cd-login" id="login_form" method="post" action="">
-                 <div class="list">
+         <div id="cd-login">
+           <div class="cd-login" id="login_form">
+            <div class="list">
                 <input placeholder="用户名 / 绑定的手机号或邮箱" class="listinp" type="text" name="username" id="username">
             </div>
             <div class="list">
                 <input class="listinp" type="password" placeholder="密码" name="password" id="password">
             </div>
-         <!------账户登录错误
-            <div class="list">
-                <input class="vericode" type="text" style="color: #ffffff"/>
-                <a href="#" style=" float:right"><img src="imges/vericode.png"  alt="看不清，点击换一个" name="getcode" id="getcode" border="0" style="cursor:hand" align="absMiddle"></a>
-            </div>
-            <div class="error_tip"><img src="imges/error.png"  style="margin:3px 6px 40px 3px; float:left"/>
-            <p class="">手机号与用户名没有绑定。须先使用用户名登录后，在个人中心将手机号进行绑定之后才能使用手机号代替用户名登录。</p>   
-        </div>----->
             
+            <div class="list error hide">
+                <input class="listinp errortext" type="text" value="">
+            </div>
             <div class="login">
                 <input type="submit" class="btn" value="登&nbsp;&nbsp;&nbsp;&nbsp;录">
             </div>
             
             <div class="listbox">
                 <a href="#" class="forget">忘记密码？</a>
-                <a class="remember"><input type="checkbox" class="rememberbox" style="vertical-align:-2px;" value="1" id="login-radio" name="rptAutoLogin" onclick="return rePassConfirm()">记住用户名</a>
-                
+                <a class="remember"><input type="checkbox" class="rememberbox" style="vertical-align:-2px;" value="1" id="login-radio" name="rptAutoLogin">记住用户名</a>
             </div>
-        </form>
+         </div>
        </div>
       
-      
-      <!-- 扫码登录页 -->
-       <div id="cd-signup" style="display:none"> 
-            <form class="cd-form">
-            
-                <div class="biglist">
-    
-                    <div class="codebox" id="qrcodeDiv"><div style="color: #999999;margin-top:80px">正在载入...</div></div>
-                    <p style="color: #ffffff;font-family:Microsoft YaHei;font-size:16px; margin-top:30px;margin-bottom:-20px; text-align:center;">请使用客户无忧手机版扫描二维码</p>
-            
-            </div>
-            
-            
-            </form>
-        </div>
+
           <div class="register">
                 没有账号?&nbsp;&nbsp;<a href="reg.do" class="registerfree">免费注册</a>
             </div>
@@ -245,17 +239,14 @@ a { text-decoration: none;}
         </div>
         
         <div class="download">
-                <div class="iPhone">
-                    <a href="download.shtml" target="_blank" class="iphoneicon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iPhone</a>
-    
-                 
-                </div>
-                <div class="Android">
-                    <a href="download.shtml" target="_blank" class="Androidicon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Android</a>
-                
-                </div>
-                <div class="line"></div>
-                    
+            <div class="iPhone">
+                <a href="https://github.com/vesung/WaBoot" target="_blank" class="iphoneicon">
+                    <svg height="30" width="30" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" aria-hidden="true" >
+		                <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+		            </svg>
+		            https://github.com/vesung/WaBoot
+                 </a>
+            </div>
         </div>
     
  
@@ -263,28 +254,59 @@ a { text-decoration: none;}
 </section>
 
 
-	<script type="text/javascript" src="platform/lib/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="platform/lib/jquery.md5.js"></script>
-	<script type="text/javascript">
-		(function() {
+<script type="text/javascript" src="platform/lib/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="platform/lib/jquery.md5.js"></script>
+<script type="text/javascript">
+(function() {
+    console = window.console || {};
+    console.info = console.info || {};
+	
+	/**
+     * 执行登录
+     */
+    function doLogin() {
+			var userName = document.getElementById("username");
+			var passWord = document.getElementById("password");
+
+			if (userName.value == "") {
+				userName.focus();
+				return false;
+			}
+			if (passWord.value == "") {
+				passWord.focus();
+				return false;
+			}
 			
-			$('#login_form').submit(function(){
-				var userName = document.getElementById("username");
-			    var passWord = document.getElementById("password");
+			$.ajax({
+		        "type" : "POST", "cache" : false, "dataType" : "json",
+		        "contentType" : "application/json; charset=utf-8",
+		        "url" : "login.do",
+		        "data" : JSON.stringify({"userid": userName.value, "password": $.md5(passWord.value)}), //以json格式传递
+		        "success" : function(result) {
+		        	console.info(result);
+		            if (result.success) {
+		                window.location.href = result.data;
+		            } else {
+		                $(".errortext").val(result.data);
+		                $(".list.error").show();
+		            }
+		        },
+		        "error" : function(errinfo) {
+		            console.info(errinfo);
+		        }
+		    });
 
-			    if (userName.value == "") {
-			        userName.focus();
-			        return false;
-			    }
-			    if (passWord.value == "") {
-			        passWord.focus();
-			        return false;
-			    }
-			    
-			    return true;
-			});
+			return true;
+	};
+	
+	function hideErrorTip(){
+		$(".list.error").hide();
+	}
 
-		}())
-	</script>
+	
+	$('.login input.btn').click(doLogin);
+    $('#username,#password').keydown(hideErrorTip);
+}())
+</script>
 </body>
 </html>

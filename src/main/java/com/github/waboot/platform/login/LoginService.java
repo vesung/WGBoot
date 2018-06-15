@@ -42,7 +42,7 @@ public class LoginService implements IService{
 			//得到当前的会话信息，设置超时时间单位毫秒，时间为28800000
 			SecurityUtils.getSubject().getSession().setTimeout(28800000); 
 			
-			return Results.buildSuccessResult("登录成功");
+			return Results.buildSuccessResult("platform/main.html");
 		} catch ( UnknownAccountException uae ) {
 			return Results.buildErrorResult("用户不存在");
 		} catch ( IncorrectCredentialsException ice ) {
