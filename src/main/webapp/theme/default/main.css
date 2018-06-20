@@ -1,0 +1,44 @@
+ul {
+    list-style-type: none;
+}
+
+/*顶部工具栏*/
+#header .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+}
+#header .navbar {
+    height: 50px;
+    margin-bottom: 0;
+    padding-right: 20px;
+    background: #75b9e6;
+    border-radius: 0;
+    border: 0;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+/*左侧菜单*/
+#sidebar {
+    position: fixed;
+    width: 210px;
+    height: auto;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 50px;
+    z-index: 99;
+}
+
+/*右侧内容区域*/
+#content {
+    height: 100%;
+    margin-left: 210px;
+    padding: 50px 0 25px 0;
+    margin-left: 210px;
+}
+#content .content-wrapper {
+    height: 100%;
+    float: left;
+    width: 100%;
+    position: relative;
+}
