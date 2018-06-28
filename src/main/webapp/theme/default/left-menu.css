@@ -7,7 +7,9 @@
     padding:0px;
 }
 
-.accordion ul{padding: 0px;}
+.accordion ul{
+    padding: 0px;
+}
 
 .accordion .link {
     cursor: pointer;
